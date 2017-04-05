@@ -2,3 +2,6 @@
 /*.db
 /Debug
 /*.opendb
+/.vs
+/desktop.ini
+/ADTs/desktop.ini

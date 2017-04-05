@@ -152,7 +152,10 @@
     <ClInclude Include="ADTs\ListNode.h" />
     <ClInclude Include="ADTs\Queue.h" />
     <ClInclude Include="ADTs\QueueAdapter.h" />
+    <ClInclude Include="ADTs\RandomNumberGenerator.h" />
     <ClInclude Include="ADTs\SkewHeap.h" />
+    <ClInclude Include="ADTs\SkipList.h" />
+    <ClInclude Include="ADTs\SkipNode.h" />
     <ClInclude Include="ADTs\Stack.h" />
     <ClInclude Include="ADTs\StackAdapter.h" />
     <ClInclude Include="ADTs\TreeTraversal.h" />

@@ -34,7 +34,7 @@ private:
         //loop until we've gone past the size of our vector
         while (index < current_size)
         {
-            //calculate the left child of the where 
+            //Start by assuming that we will swap with left child.
             int child_position = index * 2 + 1;
 
             //are we at the end of our vector?
@@ -70,7 +70,7 @@ private:
             }
             else
             {
-                //Where ever index ended up is where our original item belongs.  Set now.
+                //Whereever index ended up is where our original item belongs.  Set now.
                 _items[index] = item;
                 break;
             }
@@ -103,37 +103,24 @@ public:
 
     virtual void enqueue(const T &item)
     {
-        //calculate positions
-        int current_position = _items.getSize();
-        int parent_position = (current_position - 1) / 2;
+        //add element to end of heap, then bubble up
+        _items.addElement(item); 
 
-        //insert element (note: may get erased if we hit the WHILE loop)
-        _items.addElement(item);
+        //indices keep track of parent / child relationship
+        int current_index = _items.getSize() - 1;
+        int parent_index = (current_index - 1) / 2;
 
-        //get parent element if it exists
-        T *parent = nullptr;
-        if (parent_position >= 0)
+        //continue to swap parent with child until parent is smaller than child
+        while (parent_index > -1 && _items[parent_index] > _items[current_index])
         {
-            parent = &_items[parent_position];
-        }
+            //swap
+            T temp = _items[parent_index];
+            _items[parent_index] = _items[current_index];
+            _items[current_index] = temp;
 
-        //only continue if we have a non-null parent
-        if (parent != nullptr)
-        {
-            //bubble up
-            while (current_position > 0 && item < *parent)
-            {
-                _items[current_position] = *parent;
-                current_position = parent_position;
-                parent_position = (current_position - 1) / 2;
-                if (parent_position >= 0)
-                {
-                    parent = &_items[parent_position];
-                }
-            }
-
-            //after finding the correct location, we can finally place our item
-            _items[current_position] = item;
+            //update indices
+            current_index = parent_index;
+            parent_index = (current_index - 1) / 2;
         }
     }
 
