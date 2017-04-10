@@ -63,6 +63,42 @@
     <ClInclude Include="ADTs\SkewHeap.h">
       <Filter>Header Files\ADTs</Filter>
     </ClInclude>
+    <ClInclude Include="ADTs\SkipList.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\SkipNode.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\RandomNumberGenerator.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\BucketHashTable.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\DoubleHashTable.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\HasherBase.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\HasherFactory.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\HashItem.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\HashTableBase.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\LinearHashTable.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\QuadraticHashTable.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\SimpleStringHasher.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
