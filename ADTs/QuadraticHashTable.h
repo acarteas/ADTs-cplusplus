@@ -7,7 +7,7 @@ class QuadraticHashTable : public LinearHashTable<Key, Value>
 protected:
 
 	//difference between linear and quadratic hash table is how they probe!
-	virtual int getNextProbe(int starting_hash)
+	virtual int getNextProbe(int starting_hash, int probe_count)
 	{
 		int next_hash = (probe_count * (1 + starting_hash * starting_hash) + 1) % HashTableBase<Key, Value>::_items.size();
 		return next_hash;

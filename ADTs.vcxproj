@@ -169,6 +169,7 @@
     <ClInclude Include="ADTs\StackAdapter.h" />
     <ClInclude Include="ADTs\TreeTraversal.h" />
     <ClInclude Include="ADTs\Vector.h" />
+    <ClInclude Include="examples\hashtables.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

@@ -16,6 +16,9 @@
     <Filter Include="Header Files\ADTs">
       <UniqueIdentifier>{a82c1507-7825-4dd2-bfe6-a5316d56e223}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\examples">
+      <UniqueIdentifier>{084a7152-647c-4ac8-b680-8ca216ad7130}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADTs\BinaryNode.h">
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="ADTs\SimpleStringHasher.h">
       <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\hashtables.h">
+      <Filter>Header Files\examples</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

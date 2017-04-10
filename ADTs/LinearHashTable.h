@@ -16,6 +16,13 @@ protected:
 		return (starting_hash + 1) %  HashTableBase<Key, Value>::_items.size();
 	}
 
+    //Not really used for linear probing, but might be helpful for other
+    //probing techniques.
+    virtual int getNextProbe(int starting_hash, int probe_count)
+    {
+        return getNextProbe(starting_hash);
+    }
+
 	//determines whether or not we need to resize
 	//to turn off resize, just always return false
 	virtual bool needsResize()
