@@ -3,8 +3,8 @@
 
 #include "ListNode.h"
 
-//AC Note: This implementation isn't terribly efficient as each SkipNode contains its own copy of
-//a given value.
+//AC Note: This implementation isn't terribly efficient as each 
+//SkipNode contains its own copy of a given value.
 template <typename T>
 class SkipNode : public ListNode<T>
 {

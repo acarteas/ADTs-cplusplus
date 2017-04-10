@@ -5,6 +5,7 @@
 #include "Vector.h"
 #include "SkipNode.h"
 #include "RandomNumberGenerator.h"
+#include "StackAdapter.h"
 #include <utility>
 using namespace std;
 
@@ -18,26 +19,63 @@ private:
 
 protected:
 
-	//finds the correct location to insert a given node
-	SkipNode<T> *slide(SkipNode<T> *start, const T& item)
+	//only finds the correct location on a given level
+	//(we won't take down pointers)
+	SkipNode<T> *levelFind(SkipNode<T> *start, const T& item)
 	{
-		SkipNode<T> *current = start;
+		//grab top-most starter node
+		SkipNode<T> *current = _nodes[_nodes.getSize() - 1];
+
+		//shift down until we find either the value
+		//or a nullptr
+		while (current != nullptr 
+			&& current->getNext() != nullptr
+			&& current->getValue() != item)
+		{
+			//one of two options: either go next if 
+			//we are less than or down if we are not.
+			if (current->getNext()->getValue() <= item)
+			{
+				current =
+					dynamic_cast<SkipNode<T>*>(
+						current->getNext()
+						);
+			}
+			else
+			{
+				break;
+			}
+		}
+		return current;
+	}
+
+	//finds the correct location to insert a given node
+	SkipNode<T> *find(SkipNode<T> *start, const T& item)
+	{
+		//grab top-most starter node
+		SkipNode<T> *current = _nodes[_nodes.getSize() - 1];
 		SkipNode<T> *previous = current;
 
-		//account for starting sentinel node
-		if (start->isSentinel() == true)
+		//shift down until we find either the value
+		//or a nullptr
+		while (current != nullptr &&
+			current->getValue() != item)
 		{
-			current = dynamic_cast<SkipNode<T> *>(current->getNext());
-		}
-
-		//use the starting node to find our correct location
-		while (current != nullptr && current->getValue() < item)
-		{
-			//remember new insert location
 			previous = current;
 
-			//move to the next location
-			current = dynamic_cast<SkipNode<T> *>(current->getNext());
+			//one of two options: either go next if 
+			//we are less than or down if we are not.
+			if (current->getNext()->getValue() <= item)
+			{
+				current = 
+					dynamic_cast<SkipNode<T>*>(
+						current->getNext()
+						);
+			}
+			else
+			{
+				current = current->getBelow();
+			}
 		}
 		return previous;
 	}
@@ -45,43 +83,7 @@ protected:
 	//handles the recursive bit of adding new elements to the list
 	pair<SkipNode<T> *, int> addElementHelper(SkipNode<T> *start, const T& item, int depth = 0)
 	{
-		SkipNode<T> *insert_location = slide(start, item);
-		pair<SkipNode<T> *, int> bubble_result;
-		bubble_result.second = 0;
 
-		//if we're not at the bottom, we need to call ourselves again
-		if (insert_location->getBelow() != nullptr)
-		{
-			bubble_result = addElementHelper(insert_location->getBelow(), item, depth - 1);
-
-			//do we add a record at this level?
-			if (bubble_result.second == 1)
-			{
-				SkipNode<T> *new_node = new SkipNode<T>{ item };
-				new_node->setNext(insert_location->getNext());
-				insert_location->setNext(new_node);
-				new_node->setBelow(bubble_result.first);
-
-				//return a new bubble result for the caller
-				pair<SkipNode<T> *, int> result;
-				result.first = new_node;
-				result.second = _rng.getInt(0, 1);
-				return result;
-			}
-		}
-		else //ELSE: we don't have a bottom pointer
-		{
-			//at the bottom, we always add nodes
-			SkipNode<T> *new_node = new SkipNode<T>{ item };
-			new_node->setNext(insert_location->getNext());
-			insert_location->setNext(new_node);
-			
-			//do we get to bubble up?
-			pair<SkipNode<T> *, int> result;
-			result.first = new_node;
-			result.second = _rng.getInt(0, 1);
-			return result;
-		}
 	}
 
 public:
@@ -112,25 +114,51 @@ public:
 
 	virtual void addElement(const T &item)
 	{
-		//start add at "top" of SkipList
-		pair<SkipNode<T> *, int> bubble_result = addElementHelper(_nodes.getElementAt(_nodes.getSize() - 1), item);
-		
-		//do we need to add a new top-level?
-		if (bubble_result.second == 1)
+		//TODO: fix memory leak
+		StackAdapter<SkipNode<T>*> item_stack{ new Vector<SkipNode<T>*>{} };
+
+		//find appropraite insert location at each level of
+		//skip list
+		item_stack.push(levelFind(_nodes[_nodes.getSize() - 1], item));
+		for (int i = _nodes.getSize() - 2; 
+			i >= 0; 
+			i--)
 		{
-			//all starting nodes are empty nodes
-			SkipNode<T> *empty_node = new SkipNode<T>{};
-			empty_node->setIsSentinel(true);
-			empty_node->setBelow(_nodes.getElementAt(_nodes.getSize() - 1));
-
-			//the bubble result will get tacked onto the empty result
-			SkipNode<T> *new_node = new SkipNode<T>{ item };
-			empty_node->setNext(new_node);
-			new_node->setBelow(bubble_result.first);
-
-			_nodes.addElement(empty_node);
+			//begin search at last found node on prior
+			//level
+			item_stack.push(
+				levelFind(item_stack.getTop()->getBelow(),
+					item)
+			);
 		}
-		_size++;
+
+		bool should_add = true;
+		SkipNode<T> *last_add = nullptr;
+		while (item_stack.getSize() > 0 && should_add == true)
+		{
+			SkipNode<T> *before = item_stack.pop();
+			SkipNode<T> *current = new SkipNode<T>{ item };
+			current->setBelow(last_add);
+			last_add = current;
+			current->setNext(before->getNext());
+			before->setNext(current);
+			should_add = _rng.getRandomNumber(0, 2) == 1;
+		}
+
+		//do we need to add a whole new level to our
+		//SkipList
+		if (should_add == true)
+		{
+			//create new level in vector
+			SkipNode<T> *sentinel = new SkipNode<T>{};
+			sentinel->setIsSentinel(true);
+			_nodes.addElement(sentinel);
+
+			//add new item, link to sentinel
+			SkipNode<T> *current = new SkipNode<T>{ item };
+			sentinel->setNext(current);
+		}
+		
 	}
 
 	virtual bool isEmpty() const
@@ -153,19 +181,21 @@ public:
     //TODO: implement
     virtual bool containsElement(const T& item) const
     {
-
+		return false;
+		//return find(_items item)->getValue() != item;
+		
     }
 
     //TODO: implement
     virtual const T& getFirst() const
     {
-
+		return _nodes[0]->getValue();
     }
 
     //TODO: implement
     virtual T& getFirst()
     {
-
+		return _nodes[0]->getValue();
     }
 
 
