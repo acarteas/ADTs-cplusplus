@@ -1,7 +1,7 @@
 #ifndef STRING_STREAM_STRING_HASHER_H
 #define STRING_STREAM_STRING_HASHER_H
 
-#include "ADTs/HasherBase.h"
+#include "HasherBase.h"
 #include <string>
 #include <sstream>
 
