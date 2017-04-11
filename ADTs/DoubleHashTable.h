@@ -31,7 +31,7 @@ protected:
 	//to turn off resize, just always return false
 	virtual bool needsResize()
 	{
-		//based on results, it looks like double hashing gets worse at about 70%
+		//based on results, it looks like double hashing gets worse at about 50%
 		if (HashTableBase<Key, Value>::_number_of_elements > (0.50 * HashTableBase<Key, Value>::_primes[HashTableBase<Key, Value>::_local_prime_index]))
 		{
 			return true;
