@@ -24,7 +24,10 @@ protected:
 	//double hash uses another hashing attempt for next probe location
 	virtual int getNextProbe(int starting_hash, int probe_attempt)
 	{
-		int second_try = (starting_hash + HashTableBase<Key, Value>::getHash(to_string(starting_hash + probe_attempt))) % HashTableBase<Key, Value>::_items.size();
+		int second_try = (
+			starting_hash + 
+			HashTableBase<Key, Value>::getHash(to_string(starting_hash + probe_attempt))
+			) % HashTableBase<Key, Value>::_items.size();
 		return second_try;
 	}
 

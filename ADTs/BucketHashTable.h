@@ -216,6 +216,26 @@ public:
 		//throw exception if key not found
 		throw out_of_range{"Key not found."};
 	}
+
+	//returns all keys present in the hashtable
+	//BHT has to override this because it uses _buckets instead
+	//of base class' _items
+	virtual vector<Key> getKeys()
+	{
+		vector<Key> keys;
+
+		for (auto bucket : _buckets)
+		{
+			for (auto item : bucket.getValue())
+			{
+				if (item.isEmpty() == false)
+				{
+					keys.push_back(item.getKey());
+				}
+			}
+		}
+		return keys;
+	}
 };
 
 #endif

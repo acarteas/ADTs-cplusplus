@@ -12,5 +12,11 @@ int main(void)
 		<< exampleBenchmark(lht, 1000) << endl;
 	cout << "Running double hash on 1000 elements: "
 		<< exampleBenchmark(dht, 1000) << endl;
+
+
+	for (auto item : bht.getKeys())
+	{
+		cout << item << endl;
+	}
     return 0;
 }
