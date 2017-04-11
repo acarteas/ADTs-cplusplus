@@ -7,7 +7,7 @@
 
 using namespace std;
 
-//A simple implimintation of using StringStreams to hash a string by Joshua Alpert
+//A simple implementation of using StringStreams to hash a string by Joshua Alpert
 class StringStreamStringHasher : public HasherBase<string>
 {
 	virtual int getHash(const string &item, int mod_by)
