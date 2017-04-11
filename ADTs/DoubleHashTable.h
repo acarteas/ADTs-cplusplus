@@ -22,9 +22,9 @@ private:
 protected:
 
 	//double hash uses another hashing attempt for next probe location
-	virtual int getNextProbe(int starting_hash)
+	virtual int getNextProbe(int starting_hash, int probe_attempt)
 	{
-		int second_try = (starting_hash + HashTableBase<Key, Value>::getHash(to_string(starting_hash))) % HashTableBase<Key, Value>::_items.size();
+		int second_try = (starting_hash + HashTableBase<Key, Value>::getHash(to_string(starting_hash + probe_attempt))) % HashTableBase<Key, Value>::_items.size();
 		return second_try;
 	}
 
@@ -32,7 +32,7 @@ protected:
 	virtual bool needsResize()
 	{
 		//based on results, it looks like double hashing gets worse at about 70%
-		if (HashTableBase<Key, Value>::_number_of_elements > (0.70 * HashTableBase<Key, Value>::_primes[HashTableBase<Key, Value>::_local_prime_index]))
+		if (HashTableBase<Key, Value>::_number_of_elements > (0.50 * HashTableBase<Key, Value>::_primes[HashTableBase<Key, Value>::_local_prime_index]))
 		{
 			return true;
 		}
