@@ -105,7 +105,7 @@
     <ClInclude Include="examples\hashtables.h">
       <Filter>Header Files\examples</Filter>
     </ClInclude>
-    <ClInclude Include="StringStreamStringHahser.h">
+    <ClInclude Include="StringStreamStringHasher.h">
       <Filter>Header Files\ADTs</Filter>
     </ClInclude>
   </ItemGroup>
