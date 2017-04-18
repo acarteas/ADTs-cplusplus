@@ -105,6 +105,9 @@
     <ClInclude Include="examples\hashtables.h">
       <Filter>Header Files\examples</Filter>
     </ClInclude>
+    <ClInclude Include="ADTs\StringStreamStringHasher.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
