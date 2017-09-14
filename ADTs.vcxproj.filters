@@ -19,6 +19,9 @@
     <Filter Include="Header Files\examples">
       <UniqueIdentifier>{084a7152-647c-4ac8-b680-8ca216ad7130}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\benchmarks">
+      <UniqueIdentifier>{4052d4b0-1931-4c1b-8588-9be6d005b64c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADTs\BinaryNode.h">
@@ -107,6 +110,12 @@
     </ClInclude>
     <ClInclude Include="ADTs\StringStreamStringHasher.h">
       <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\CircularQueue.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="benchmarks\QueueBenchmark.h">
+      <Filter>Header Files\benchmarks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

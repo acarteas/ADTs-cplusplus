@@ -24,13 +24,13 @@ public:
     }
     virtual void enqueue(const T& item)
     {
-        _data->addElement(item);
+        _data->addElementAt(item, _data->getSize());
     }
     virtual T dequeue()
     {
-        T first = getFirst();
+        T item = _data->getElementAt(0);
         _data->removeElementAt(0);
-        return first;
+        return item;
     }
     virtual int getSize() const
     {

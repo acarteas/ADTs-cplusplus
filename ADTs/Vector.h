@@ -52,7 +52,7 @@ private:
             ? new_size          //chosen if new_size is smaller
             : _logical_size;    //chosen if _logical_size is smaller
 
-        //Now that we know the smaller size, we can safely copy
+                                //Now that we know the smaller size, we can safely copy
         for (int i = 0; i < smaller_size; i++)
         {
             new_array[i] = _items[i];
@@ -392,6 +392,12 @@ public:
     }
 
 #pragma endregion
+
+    void setSize(int new_size)
+    {
+        adjustSize(new_size);
+        _logical_size = new_size;
+    }
 };
 
 #endif // ! VECTOR_H
