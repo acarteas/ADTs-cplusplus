@@ -117,7 +117,7 @@
     <ClInclude Include="benchmarks\QueueBenchmark.h">
       <Filter>Header Files\benchmarks</Filter>
     </ClInclude>
-    <ClInclude Include="benchmarks.h">
+    <ClInclude Include="examples\benchmarks.h">
       <Filter>Header Files\examples</Filter>
     </ClInclude>
   </ItemGroup>

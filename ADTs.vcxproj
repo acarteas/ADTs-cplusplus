@@ -171,8 +171,8 @@
     <ClInclude Include="ADTs\StringStreamStringHasher.h" />
     <ClInclude Include="ADTs\TreeTraversal.h" />
     <ClInclude Include="ADTs\Vector.h" />
-    <ClInclude Include="benchmarks.h" />
     <ClInclude Include="benchmarks\QueueBenchmark.h" />
+    <ClInclude Include="examples\benchmarks.h" />
     <ClInclude Include="examples\hashtables.h" />
   </ItemGroup>
   <ItemGroup>

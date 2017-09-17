@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "ADTs\BinarySearchTree.h"
 
 using namespace std;
 
