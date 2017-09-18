@@ -185,6 +185,13 @@ public:
         return _size == 0;
     }
 
+    //returns the root pointer for learners to play around with.  Probably shouldn't exist 
+    //is a real BST.
+    virtual const BinaryNode<T>* getRoot()
+    {
+        return _root;
+    }
+
 #pragma endregion
 
     void performTraversal(TreeTraversal<T> &traversal)
