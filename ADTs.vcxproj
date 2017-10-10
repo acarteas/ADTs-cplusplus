@@ -148,6 +148,7 @@
     <ClInclude Include="ADTs\BucketHashTable.h" />
     <ClInclude Include="ADTs\CircularQueue.h" />
     <ClInclude Include="ADTs\Collection.h" />
+    <ClInclude Include="ADTs\DisjointSet.h" />
     <ClInclude Include="ADTs\DoubleHashTable.h" />
     <ClInclude Include="ADTs\HasherBase.h" />
     <ClInclude Include="ADTs\HasherFactory.h" />

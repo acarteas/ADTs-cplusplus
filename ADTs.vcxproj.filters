@@ -120,6 +120,9 @@
     <ClInclude Include="examples\benchmarks.h">
       <Filter>Header Files\examples</Filter>
     </ClInclude>
+    <ClInclude Include="ADTs\DisjointSet.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
