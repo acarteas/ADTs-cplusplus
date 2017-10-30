@@ -139,7 +139,7 @@ protected:
 		}
 
 		//else, just call BST helper
-		BinaryNode<T> *bst_result = BinarySearchTree::addElementHelper(root, item);
+		BinaryNode<T> *bst_result = BinarySearchTree<T>::addElementHelper(root, item);
 
 		//if everything went according to plan, we should be able to cast the BinaryNode
 		//into an AvlNode
@@ -152,7 +152,7 @@ protected:
 	virtual BinaryNode<T> *removeElementHelper(BinaryNode<T> *root, const T& item)
 	{
 		//call parent's method
-		BinaryNode<T> *bst_result = BinarySearchTree::removeElementHelper(root, item);
+		BinaryNode<T> *bst_result = BinarySearchTree<T>::removeElementHelper(root, item);
 
 		//if everything went according to plan, we should be able to cast the BinaryNode
 		//into an AvlNode
