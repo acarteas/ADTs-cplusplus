@@ -46,6 +46,7 @@ protected:
 			//rotate left at root
 			return rotateLeft(root);
 		}
+		return root;
 	}
 
 	virtual BinaryNode<T> *rotateLeft(BinaryNode<T> *root)
