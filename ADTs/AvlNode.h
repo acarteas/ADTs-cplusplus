@@ -29,15 +29,15 @@ public:
 		return _height;
 	}
 
-	void setHeight(const T& height)
+	void setHeight(const int& height)
 	{
 		_height = height;
 	}
 
 	int getBalanceFactor()
 	{
-		AvlNode<T> *left = dynamic_cast<AvlNode<T> *>(getLeftChild());
-		AvlNode<T> *right = dynamic_cast<AvlNode<T> *>(getRightChild());
+		AvlNode<T> *left = dynamic_cast<AvlNode<T> *>(BinaryNode<T>::getLeftChild());
+		AvlNode<T> *right = dynamic_cast<AvlNode<T> *>(BinaryNode<T>::getRightChild());
 
 		int left_height = (left == nullptr) ? -1 : left->getHeight();
 		int right_height = (right == nullptr) ? -1 : right->getHeight();
