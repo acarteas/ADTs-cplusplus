@@ -12,15 +12,15 @@ private:
 public:
 
 	//carry over constructors from parent
-	AvlNode() : BinaryNode()
+	AvlNode() : BinaryNode<T>()
 	{
 	}
 
-	AvlNode(T value) : BinaryNode(value)
+	AvlNode(T value) : BinaryNode<T>(value)
 	{
 	}
 
-	AvlNode(AvlNode<T> *left, AvlNode<T> *right) : BinaryNode(left, right)
+	AvlNode(AvlNode<T> *left, AvlNode<T> *right) : BinaryNode<T>(left, right)
 	{
 	}
 
