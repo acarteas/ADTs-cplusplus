@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include "ADTs\SortedCollection.h"
 
 using namespace std;
 

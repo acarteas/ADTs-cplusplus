@@ -6,7 +6,7 @@
 //Indexed ADTs allow items to be inserted at specific 
 //locations within a Collection
 template <typename T>
-class Indexed
+class Indexed : public Collection<T>
 {
 public:
 	virtual T &getElementAt(int index) = 0;
