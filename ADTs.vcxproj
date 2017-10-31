@@ -22,7 +22,7 @@
     <ProjectGuid>{3000CAD7-A471-493A-8619-03120E881981}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ADTs</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -169,6 +169,7 @@
     <ClInclude Include="ADTs\SkewHeap.h" />
     <ClInclude Include="ADTs\SkipList.h" />
     <ClInclude Include="ADTs\SkipNode.h" />
+    <ClInclude Include="ADTs\SortedCollection.h" />
     <ClInclude Include="ADTs\Stack.h" />
     <ClInclude Include="ADTs\StackAdapter.h" />
     <ClInclude Include="ADTs\StringStreamStringHasher.h" />
