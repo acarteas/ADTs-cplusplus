@@ -2,10 +2,9 @@
 #define INDEXED_SORTER_H
 
 #include "../ADTs/Indexed.h"
-#include "Sorter.h"
 
 template <typename T>
-class IndexedSorter : public Sorter<Indexed<T>>
+class IndexedSorter
 {
 public:
 	virtual Indexed<T>& sort(Indexed<T>& data) = 0;

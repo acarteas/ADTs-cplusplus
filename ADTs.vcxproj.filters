@@ -147,8 +147,8 @@
     <ClInclude Include="sorting\SelectionSorter.h">
       <Filter>Header Files\sorting</Filter>
     </ClInclude>
-    <ClInclude Include="sorting\Sorter.h">
-      <Filter>Header Files\sorting</Filter>
+    <ClInclude Include="benchmarks\SortingBenchmark.h">
+      <Filter>Header Files\benchmarks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

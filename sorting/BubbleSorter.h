@@ -18,6 +18,8 @@ public:
 		{
 			swapped = true;
 
+            //TODO: We should be able to change the FOR loop
+            //to shrink for every pass
 			for (int i = 0; i < data_size - 1; i++)
 			{
 
