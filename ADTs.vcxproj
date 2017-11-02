@@ -178,6 +178,11 @@
     <ClInclude Include="benchmarks\QueueBenchmark.h" />
     <ClInclude Include="examples\benchmarks.h" />
     <ClInclude Include="examples\hashtables.h" />
+    <ClInclude Include="sorting\BubbleSorter.h" />
+    <ClInclude Include="sorting\IndexedSorter.h" />
+    <ClInclude Include="sorting\InsertionSorter.h" />
+    <ClInclude Include="sorting\SelectionSorter.h" />
+    <ClInclude Include="sorting\Sorter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
