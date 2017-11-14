@@ -135,20 +135,35 @@
     <ClInclude Include="ADTs\SortedCollection.h">
       <Filter>Header Files\ADTs</Filter>
     </ClInclude>
-    <ClInclude Include="sorting\BubbleSorter.h">
-      <Filter>Header Files\sorting</Filter>
-    </ClInclude>
-    <ClInclude Include="sorting\IndexedSorter.h">
-      <Filter>Header Files\sorting</Filter>
-    </ClInclude>
-    <ClInclude Include="sorting\InsertionSorter.h">
-      <Filter>Header Files\sorting</Filter>
-    </ClInclude>
-    <ClInclude Include="sorting\SelectionSorter.h">
-      <Filter>Header Files\sorting</Filter>
-    </ClInclude>
     <ClInclude Include="benchmarks\SortingBenchmark.h">
       <Filter>Header Files\benchmarks</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\MergeSort.h">
+      <Filter>Header Files\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\QuickSort.h">
+      <Filter>Header Files\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\RadixSort.h">
+      <Filter>Header Files\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\ShellSort.h">
+      <Filter>Header Files\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\BubbleSort.h">
+      <Filter>Header Files\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\IndexedSort.h">
+      <Filter>Header Files\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\InsertionSort.h">
+      <Filter>Header Files\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\SelectionSort.h">
+      <Filter>Header Files\sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting\Sorting.h">
+      <Filter>Header Files\sorting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

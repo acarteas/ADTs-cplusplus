@@ -22,7 +22,7 @@
     <ProjectGuid>{3000CAD7-A471-493A-8619-03120E881981}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ADTs</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -179,10 +179,15 @@
     <ClInclude Include="benchmarks\SortingBenchmark.h" />
     <ClInclude Include="examples\benchmarks.h" />
     <ClInclude Include="examples\hashtables.h" />
-    <ClInclude Include="sorting\BubbleSorter.h" />
-    <ClInclude Include="sorting\IndexedSorter.h" />
-    <ClInclude Include="sorting\InsertionSorter.h" />
-    <ClInclude Include="sorting\SelectionSorter.h" />
+    <ClInclude Include="sorting\BubbleSort.h" />
+    <ClInclude Include="sorting\IndexedSort.h" />
+    <ClInclude Include="sorting\InsertionSort.h" />
+    <ClInclude Include="sorting\MergeSort.h" />
+    <ClInclude Include="sorting\QuickSort.h" />
+    <ClInclude Include="sorting\RadixSort.h" />
+    <ClInclude Include="sorting\SelectionSort.h" />
+    <ClInclude Include="sorting\ShellSort.h" />
+    <ClInclude Include="sorting\Sorting.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

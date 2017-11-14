@@ -3,7 +3,7 @@
 #define SORTING_BENCHMARK_H
 
 #include <chrono>
-#include "../sorting/IndexedSorter.h"
+#include "../sorting/IndexedSort.h"
 #include "../ADTs/RandomNumberGenerator.h"
 using namespace std;
 using namespace std;
@@ -11,7 +11,7 @@ using namespace std::chrono;
 class SortingBenchmark
 {
 public:
-    long long emptyBenchmark(IndexedSorter<int> *sort, Indexed<int> *data)
+    long long emptyBenchmark(IndexedSort<int> *sort, Indexed<int> *data)
     {
         //setup our stopwatches
         system_clock::time_point start;
@@ -31,7 +31,7 @@ public:
         return duration_cast<milliseconds>(end - start).count();
     }
 
-    long long sortBenchmark(IndexedSorter<int> *sort, Indexed<int> *data, int num_trials)
+    long long sortBenchmark(IndexedSort<int> *sort, Indexed<int> *data, int num_trials)
     {
         //setup our stopwatches
         system_clock::time_point start;
@@ -57,7 +57,7 @@ public:
         return duration_cast<milliseconds>(end - start).count();
     }
 
-    long long sortPreSortedBenchmark(IndexedSorter<int> *sort, Indexed<int> *data, int num_trials)
+    long long sortPreSortedBenchmark(IndexedSort<int> *sort, Indexed<int> *data, int num_trials)
     {
         //setup our stopwatches
         system_clock::time_point start;
@@ -83,7 +83,7 @@ public:
         return duration_cast<milliseconds>(end - start).count();
     }
 
-    long long sortReverseSortedBenchmark(IndexedSorter<int> *sort, Indexed<int> *data, int num_trials)
+    long long sortReverseSortedBenchmark(IndexedSort<int> *sort, Indexed<int> *data, int num_trials)
     {
         //setup our stopwatches
         system_clock::time_point start;

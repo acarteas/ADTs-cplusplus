@@ -1,10 +1,10 @@
 #ifndef SELECTION_SORTER_H
 #define SELECTION_SORTER_H
 
-#include "IndexedSorter.h"
+#include "IndexedSort.h"
 
 template <typename T>
-class SelectionSorter : public IndexedSorter<T>
+class SelectionSort : public IndexedSort<T>
 {
 public:
 	//see http://en.wikipedia.org/wiki/Selection_sort for a 

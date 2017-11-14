@@ -1,10 +1,10 @@
-#ifndef BUBBLE_SORTER_H
-#define BUBBLE_SORTER_H
+#ifndef BUBBLE_SORT_H
+#define BUBBLE_SORT_H
 
-#include "IndexedSorter.h"
+#include "IndexedSort.h"
 
 template <typename T>
-class BubbleSorter : public IndexedSorter<T>
+class BubbleSort : public IndexedSort<T>
 {
 public:
 

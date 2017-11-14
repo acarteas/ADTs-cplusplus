@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
-#include "sorting\BubbleSorter.h"
-#include "sorting\InsertionSorter.h"
-#include "sorting\SelectionSorter.h"
+#include "sorting\Sorting.h"
 #include "benchmarks\SortingBenchmark.h"
 #include "ADTs\Vector.h"
 
@@ -11,15 +9,20 @@ using namespace std;
 int main(void)
 {
     Vector<int> v1{};
+    
     SortingBenchmark bm{};
-    Vector<string> labels = { "Bubble", "Insertion", "Selection" };
-    Vector<IndexedSorter<int> *> sorters = { new BubbleSorter<int>{},
-                                             new InsertionSorter<int>{},
-                                             new SelectionSorter<int>{} };
-    for (int i = 0; i < 3; i++)
+    Vector<string> labels = { "Bubble", "Insertion", "Selection", "Merge", "Quick", "Shell" };
+    Vector<IndexedSort<int> *> sorters = { new BubbleSort<int>{},
+                                             new InsertionSort<int>{},
+                                             new SelectionSort<int>{},
+                                             new MergeSort<int>{},
+                                             new QuickSort<int>{},
+                                             new ShellSort<int>{}
+    };
+    for (int i = 3; i < labels.getSize(); i++)
     {
         cout << labels[i] << endl;
-        for (int j = 1000; j < 10000; j += 1000)
+        for (int j = 1000; j < 100000; j += 10000)
         {
             v1 = Vector<int>{};
             cout << j;
