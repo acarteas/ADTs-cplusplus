@@ -152,6 +152,7 @@
     <ClInclude Include="ADTs\Collection.h" />
     <ClInclude Include="ADTs\DisjointSet.h" />
     <ClInclude Include="ADTs\DoubleHashTable.h" />
+    <ClInclude Include="ADTs\GraphNode.h" />
     <ClInclude Include="ADTs\HasherBase.h" />
     <ClInclude Include="ADTs\HasherFactory.h" />
     <ClInclude Include="ADTs\HashItem.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="ADTs\SortedCollection.h" />
     <ClInclude Include="ADTs\Stack.h" />
     <ClInclude Include="ADTs\StackAdapter.h" />
+    <ClInclude Include="ADTs\StringGraphNode.h" />
     <ClInclude Include="ADTs\StringStreamStringHasher.h" />
     <ClInclude Include="ADTs\TreeTraversal.h" />
     <ClInclude Include="ADTs\Vector.h" />

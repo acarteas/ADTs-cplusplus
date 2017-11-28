@@ -165,6 +165,12 @@
     <ClInclude Include="sorting\Sorting.h">
       <Filter>Header Files\sorting</Filter>
     </ClInclude>
+    <ClInclude Include="ADTs\GraphNode.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
+    <ClInclude Include="ADTs\StringGraphNode.h">
+      <Filter>Header Files\ADTs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
