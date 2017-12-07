@@ -69,14 +69,6 @@ private:
 
 	void sortHelper(Indexed<T> &data, int start_bound, int end_bound)
 	{
-		/*
-		cout << "Data before iteration: " << endl;
-		for (int k = 0; k < data.getSize(); k++)
-		{
-			cout << data.getElementAt(k) << ", ";
-		}
-		cout << endl;
-		*/
 
 		//smaller than bound of 3?
 		if (end_bound - start_bound > 3)
@@ -109,15 +101,6 @@ private:
 
 			//swap pivot and i value
 			swap(data, i, end_bound);
-			
-			/*
-			cout << "Data after iteration (pivot: " << pivot_value << "): " << endl;
-			for (int k = 0; k < data.getSize(); k++)
-			{
-				cout << data.getElementAt(k) << ", ";
-			}
-			cout << endl;
-			*/
 
 			//continue process
 			if (start_bound < i - 1)
