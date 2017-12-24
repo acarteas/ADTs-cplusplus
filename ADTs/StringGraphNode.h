@@ -12,6 +12,8 @@ public:
     {
 
     };
+
+	
 };
 
 #endif // !STRING_GRAPH_NODE_H

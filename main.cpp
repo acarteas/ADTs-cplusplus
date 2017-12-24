@@ -18,10 +18,15 @@ int main(void)
 	vertices = { "A", "B", "C", "D", "E", "F" };
 	edges["A"] = { "B", "F" };
 	edges["B"] = { "A", "C", "F" };
+	edges["F"] = { "D", "E" };
+	//edges["D"] = { "F" };
+	//edges["E"] = { "F" }; 
 
 	Test_Graph.BulidGraph(vertices, edges);
 
 	Test_Graph.printGraph();
+
+	Test_Graph.depthfirstSearch( "A" );
 
 	system("Pause");
     return 0;
