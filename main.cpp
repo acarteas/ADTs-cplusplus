@@ -26,7 +26,12 @@ int main(void)
 
 	Test_Graph.printGraph();
 
+
+	cout << "Recursive Depth First Search" << endl;
 	Test_Graph.depthfirstSearch( "A" );
+	cout << endl << "Iterative Depth First Search" << endl;
+	Test_Graph.iterativedepthfirstSearch("A");
+
 
 	system("Pause");
     return 0;

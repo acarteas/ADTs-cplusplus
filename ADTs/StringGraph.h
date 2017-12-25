@@ -5,23 +5,37 @@
 	#include <vector>
 	#include "GraphNode.h"
 	#include "StringGraphNode.h"
+	#include <stack>
 	using namespace std;
 
 	class StringGraph {
 	protected:
+		//Stored Strings in Graph
 		unordered_map<string, StringGraphNode*> graph{};
+		//number of Vertices in graph
+		int V;
+		//number of Edges
+		int E;
 		
 
 	public:
 
+		StringGraph(){
+			unordered_map<string, StringGraphNode*> graph{};
+			V = 0;
+			E = 0;
+		}
+
 		void BulidGraph(vector<string> keys, unordered_map<string, vector<string>> edges) {
 			for (int i = 0; i < keys.size(); i++) {
 				addVertice(keys.at(i));
+				V++;
 			}
 
 			for (auto key : edges) {
 				for (int i = 0; i < key.second.size(); i++) {
 					addEdge(key.first, key.second.at(i));
+					E++;
 				}
 			}
 		}
@@ -32,10 +46,12 @@
 
 		void addEdge(string key, string value) {
 			graph[key]->addEdge(graph[value]);
+			E++;
 		}
 
 		void addVertice(string key) {
 			graph[key] = new StringGraphNode{ key };
+			V++;
 		}
 
 		void printGraph() {
@@ -73,6 +89,39 @@
 					dfsAction(graph[cur_value], visited);
 				}
 			}
+		}
+
+		void iterativedepthfirstSearch(string key) {
+			//unordered map for marking visited nodes as true or false
+			unordered_map<string, bool> visited{};
+			for (auto node : graph) {
+				visited[node.first] = false;
+			}
+			stack<string> stack;
+
+			stack.push(key);
+
+			while (!stack.empty()) {
+				//Pop vertex from stack and print it
+				key = stack.top();
+				stack.pop();
+
+				//stack may contain same vertex twice.
+				//printe popped item only if it is not visited
+				if (visited[key] == false) {
+					cout << key << " ";
+					visited[key] = true;
+				}
+
+				vector < GraphNode<string, string>*> cur_edges = graph[key]->getEdges();
+				for (int i = 0; i < cur_edges.size(); i++) {
+					string cur_value = cur_edges.at(i)->getValue();
+					if (visited[cur_value] == false) {
+						stack.push(cur_value);
+					}
+				}
+			}
+			
 		}
 
 		void findBridges() {
