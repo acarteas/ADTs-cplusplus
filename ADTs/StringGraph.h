@@ -76,12 +76,24 @@
 		}
 
 		void findBridges() {
+				//get every edge to iterate on
+				//will be stored in vector below
+			unordered_map<string, vector<string>> edges{};
+			vector<string> bridges{};
+			for (auto vertice : graph) {
+				StringGraphNode* cur_node = vertice.second;
+				vector < GraphNode<string, string>*> cur_edges = cur_node->getEdges();
+				for (int i = 0; i < cur_edges.size(); i++) {
+					edges[cur_node->getValue()].push_back(cur_edges.at(i)->getValue());
+				}
+			}
+			findBridgesUtil(bridges, edges);
+		}
 
-
-				//iterate on every edge
-				//remove edge from graph							|
-				//traverse graph and see if it remains connected	|---Perform this in helper function
-				//add edge back to graph							|
+		void findBridgesUtil(vector<string> bridges, unordered_map<string, vector<string>> edges) {
+			//remove edge from graph
+			//traverse graph and see if it remains connected	
+			//add edge back to graph							
 		}
 	};
 

@@ -15,8 +15,8 @@ int main(void)
 	vector<string> vertices;
 	StringGraph Test_Graph;
 
-	vertices = { "A", "B", "C", "D", "E", "F" };
-	edges["A"] = { "B", "F" };
+	vertices = { "A", "B", "C", "D", "E", "F", "G" };
+	edges["A"] = { "B", "F", "G" };
 	edges["B"] = { "A", "C", "F" };
 	edges["F"] = { "D", "E" };
 	//edges["D"] = { "F" };
