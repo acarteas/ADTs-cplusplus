@@ -24,15 +24,13 @@ int main(void)
 
 	Test_Graph.BulidGraph(vertices, edges);
 
-	Test_Graph.printGraph();
-
-
+	Test_Graph.printGraph(); 
 	cout << "Recursive Depth First Search" << endl;
 	Test_Graph.depthfirstSearch( "A" );
 	cout << endl << "Iterative Depth First Search" << endl;
 	Test_Graph.iterativedepthfirstSearch("A");
-
-
+	Test_Graph.findBridges();
+	
 	system("Pause");
     return 0;
 }

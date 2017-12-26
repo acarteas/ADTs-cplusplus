@@ -29,13 +29,11 @@
 		void BulidGraph(vector<string> keys, unordered_map<string, vector<string>> edges) {
 			for (int i = 0; i < keys.size(); i++) {
 				addVertice(keys.at(i));
-				V++;
 			}
 
 			for (auto key : edges) {
 				for (int i = 0; i < key.second.size(); i++) {
 					addEdge(key.first, key.second.at(i));
-					E++;
 				}
 			}
 		}
@@ -91,9 +89,11 @@
 			}
 		}
 
-		void iterativedepthfirstSearch(string key) {
+		int iterativedepthfirstSearch(string key) {
 			//unordered map for marking visited nodes as true or false
 			unordered_map<string, bool> visited{};
+			int num_nodes_output = 0;
+
 			for (auto node : graph) {
 				visited[node.first] = false;
 			}
@@ -109,7 +109,8 @@
 				//stack may contain same vertex twice.
 				//printe popped item only if it is not visited
 				if (visited[key] == false) {
-					cout << key << " ";
+					//cout << key << " ";
+					num_nodes_output++;
 					visited[key] = true;
 				}
 
@@ -121,6 +122,8 @@
 					}
 				}
 			}
+
+			return num_nodes_output;
 			
 		}
 
@@ -136,13 +139,31 @@
 					edges[cur_node->getValue()].push_back(cur_edges.at(i)->getValue());
 				}
 			}
-			findBridgesUtil(bridges, edges);
+			bridges = findBridgesUtil(bridges, edges);
+			cout << "Found these bridges in the graph: " << endl;
+			for (int i = 0; i < bridges.size(); i++) {
+				cout << bridges.at(i) << endl;
+			}
 		}
 
-		void findBridgesUtil(vector<string> bridges, unordered_map<string, vector<string>> edges) {
+		vector<string> findBridgesUtil(vector<string> bridges, unordered_map<string, vector<string>> edges) {
 			//remove edge from graph
-			//traverse graph and see if it remains connected	
-			//add edge back to graph							
+			for (auto pair : edges) {
+				for (int i = 0; i < pair.second.size(); i++) {
+					//remove edge from graph
+					graph[pair.first]->removeEdge(graph[pair.second.at(i)]);
+					//traverse graph and see if it remains connected	
+					int check = iterativedepthfirstSearch(pair.first);
+					if (check < V || check > V) {
+						bridges.push_back(pair.first + ", " + pair.second.at(i));
+					}
+					//add edge back to graph	
+					graph[pair.first]->addEdge(graph[pair.second.at(i)]);
+				}
+			}
+			//return the vector of bridge pairs
+			return bridges;
+									
 		}
 	};
 

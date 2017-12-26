@@ -63,6 +63,10 @@ public:
         _vertices[node->getKey()] = node;
     }
 
+	void removeEdge(GraphNode<Key, Value> *node) {
+		_vertices.erase(node->getKey());
+	}
+
     vector<GraphNode<Key, Value>*> getEdges()
     {
         vector<GraphNode<Key, Value>*> result{};
