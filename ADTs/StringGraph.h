@@ -152,7 +152,7 @@
 				for (int i = 0; i < pair.second.size(); i++) {
 					//remove edge from graph
 					graph[pair.first]->removeEdge(graph[pair.second.at(i)]);
-					//traverse graph and see if it remains connected	
+					//traverse graph and see if it remains connected counting the number of unique nodes it visits compared to the total number of nodes
 					int check = iterativedepthfirstSearch(pair.first);
 					if (check < V || check > V) {
 						bridges.push_back(pair.first + ", " + pair.second.at(i));
