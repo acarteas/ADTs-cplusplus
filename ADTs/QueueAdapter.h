@@ -24,7 +24,7 @@ public:
     }
     virtual void enqueue(const T& item)
     {
-        _data->addElementAt(item, _data->getSize());
+        _data->addElementAt(item, getSize());
     }
     virtual T dequeue()
     {
@@ -34,7 +34,7 @@ public:
     }
     virtual int getSize() const
     {
-        return _data->getSize();
+        return dynamic_cast<Indexed<T>*>(_data)->getSize();
     }
 };
 
