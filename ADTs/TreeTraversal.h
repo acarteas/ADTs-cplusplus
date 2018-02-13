@@ -203,25 +203,14 @@ public:
                 continue;
             }
 
-            //process us...maybe
-            if (visited[current] == false)
-            {
-                //process left node
-                to_visit.push(current->getLeftChild());
+            //process us
+            cout << current->getValue() << " ";
 
-                //haven't seen yet, add back in
-                visited[current] = true;
-                to_visit.push(current);
+            //process left node
+            to_visit.push(current->getLeftChild());
 
-                //process right child
-                to_visit.push(current->getRightChild());              
-            }
-            else
-            {
-                cout << current->getValue() << " ";
-            }
-
-
+            //process right child
+            to_visit.push(current->getRightChild());
 
         }
     }
