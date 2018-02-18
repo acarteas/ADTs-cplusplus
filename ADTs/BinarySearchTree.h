@@ -4,6 +4,7 @@
 #include "Collection.h"
 #include "BinaryNode.h"
 #include "TreeTraversal.h"
+#include "CircularQueue.h"
 
 //This is an interface.  An interface does not have any
 //concrete implementation.
@@ -15,72 +16,119 @@ protected:
     BinaryNode<T> *_root = nullptr;
     int _size = 0;
 
+    //helper function for add element call (iterative version)
+    virtual BinaryNode<T>* addElementHelperIter(BinaryNode<T> *node,
+        const T& item)
+    {
+        //initial case: dealing with an empty tree
+        if (node == nullptr)
+        {
+            return new BinaryNode<T>{ item };
+        }
+
+        //need variable to track where we're presently at in our tree
+        BinaryNode<T>* current = node;
+        BinaryNode<T>* previous = current;
+        while (current != nullptr)
+        {
+            if (item < current->getValue())
+            {
+                previous = current;
+                current = current->getLeftChild();
+            }
+            else
+            {
+                previous = current;
+                current = current->getRightChild();
+            }
+        }
+
+        //at this point, current MUST be nullptr
+        //and previous must be the parent of this nullptr
+        //if value is less than put on left of prev, otherwise put on right
+        if (item < previous->getValue())
+        {
+            previous->setLeftChild(new BinaryNode<T>{ item });
+        }
+        else
+        {
+            previous->setRightChild(new BinaryNode<T>{ item });
+        }
+        return node;
+    }
+
     //helper function for add element recursive call
     virtual BinaryNode<T>* addElementHelper(BinaryNode<T> *node, 
         const T& item)
     {
-        //Base case: Empty tree
+        //were we passed a null node?
         if (node == nullptr)
         {
-            node = new BinaryNode<T>{};
-            node->setValue(item);
-            return node;
+            //create a new node
+            BinaryNode<T>* new_node = new BinaryNode<T>{ item };
+            return new_node;
         }
 
-        //Invariant: node cannot be null
-        //BST rules: smaller than on left, >= on right
+        //is the value greater than or less than current node's value
         if (item < node->getValue())
         {
-            //item belongs on the left
-            BinaryNode<T> *left_child = addElementHelper(node->getLeftChild(), item);
-            node->setLeftChild(left_child);
+            //belongs to the left of node
+            BinaryNode<T>* left = addElementHelper(node->getLeftChild(), item);
+            node->setLeftChild(left);
         }
         else
         {
-            //item belongs on the right
-            BinaryNode<T> *right_child = addElementHelper(node->getRightChild(), item);
-            node->setRightChild(right_child);
+            //belongs on the right of node
+            BinaryNode<T>* right = addElementHelper(node->getRightChild(), item);
+            node->setRightChild(right);
         }
-
-        //maintain recursive integrity by returning node
         return node;
     }
 
 	//find the largest node in the supplied subtree headed by *node
-	BinaryNode<T> *findLargest(BinaryNode<T> *node)
+    //Open question: what happens if node is a leaf node?  Will this still work?
+	BinaryNode<T>* findAndDisconnectLargest(BinaryNode<T> *node)
 	{
+        BinaryNode<T> *prev = node;
 		while (node != nullptr && node->getRightChild() != nullptr)
 		{
+            prev = node;
 			node = node->getRightChild();
 		}
+
+        //at this point, node is either null OR is not null and has either
+        //a left child or no children
+        if (node != nullptr)
+        {
+            prev->setRightChild(node->getLeftChild());
+        }
 		return node;
 	}
 
     BinaryNode<T>* removeElementHelper(BinaryNode<T> *node,
         const T& item)
     {
-        //base case #1: null (not found)
-        if (node == nullptr)
+        //always check for nulls
+        if (node != nullptr)
         {
-            return nullptr;
+            return node;
         }
-        //base case #2: found
-        else if (node->getValue() == item)
+
+        //base case: found what we've been looking for
+        if (node->getValue() == item)
         {
-            //possible configurations of our node
-            //1: no children
-            //2: 1 child
-            //3: 2 children
-            if (node->getLeftChild() == nullptr &&
-                node->getRightChild() == nullptr)
+            //three configurations of node
+            if (node->isLeaf() == true)
             {
+                //easy case: leaf node
                 delete node;
                 return nullptr;
             }
-            else if (node->getLeftChild() == nullptr ||
-                node->getRightChild() == nullptr)
+            else if (node->getRightChild() == nullptr
+                || node->getLeftChild() == nullptr)
             {
-                BinaryNode<T> *good_child = node->getLeftChild();
+                //one child
+                BinaryNode<T>* good_child = node->getLeftChild();
                 if (good_child == nullptr)
                 {
                     good_child = node->getRightChild();
@@ -90,43 +138,37 @@ protected:
             }
             else
             {
-                //TODO: remove with 2 children
-				//step 1: find the largest value in the LST
-				BinaryNode<T> *largest = findLargest(node->getLeftChild());
-
-				//step 2: have the current node assume the value of
-				//        this largest value
-				node->setValue(largest->getValue());
-
-				//step 3: delete the largest value in the LST
-				node->setLeftChild(removeElementHelper(
-					node->getLeftChild(), 
-					largest->getValue()
-					));
+                //two children
+                BinaryNode<T>* largest = findAndDisconnectLargest(node->getLeftChild());
+                node->setValue(largest->getValue());
+                delete largest;
+                return node;
             }
-
         }
-        //recursive case: not the item we're looking for
+        else if (item < node->getValue())
+        {
+            BinaryNode<T>* result = removeElementHelper(node->getLeftChild(), item);
+            node->setLeftChild(result);
+        }
         else
         {
-            if (item > node->getValue())
-            {
-                //note: recursive call to right side might result
-                //in a reconfiguration.  We need to capture this and
-                //update our child accordingly
-                BinaryNode<T> *result = removeElementHelper(node->getRightChild(), item);
-                node->setRightChild(result);
-            }
-            else
-            {
-                BinaryNode<T> *result = removeElementHelper(
-                    node->getLeftChild(),
-                    item
-                );
-                node->setLeftChild(result);
-            }
+            BinaryNode<T>* result = removeElementHelper(node->getRightChild(), item);
+            node->setRightChild(result);
         }
+        
 		return node;
+    }
+
+    void destructorHelper(BinaryNode<T>* node)
+    {
+        //post order traversal
+        if (node == nullptr)
+        {
+            return;
+        }
+        destructorHelper(node->getLeftChild());
+        destructorHelper(node->getRightChild());
+        delete node;
     }
 
 public:
@@ -135,7 +177,7 @@ public:
 
     virtual void addElement(const T& item)
     {
-        _root = addElementHelper(_root, item);
+        _root = addElementHelperIter(_root, item);
         _size++;
     }
     virtual void removeElement(const T& item)
@@ -187,15 +229,33 @@ public:
 
     //returns the root pointer for learners to play around with.  Probably shouldn't exist 
     //is a real BST.
-    virtual const BinaryNode<T>* getRoot()
+    virtual BinaryNode<T>* getRoot()
     {
         return _root;
+    }
+
+    virtual ~BinarySearchTree()
+    {
+        CircularQueue<BinaryNode<T>*> queue{};
+        queue.enqueue(_root);
+        while (queue.getSize() > 0)
+        {
+            BinaryNode<T>* node = queue.dequeue();
+            if (node != nullptr)
+            {
+                queue.enqueue(node->getLeftChild());
+                queue.enqueue(node->getRightChild());
+                delete node;
+            }
+        }
     }
 
 #pragma endregion
 
     void performTraversal(TreeTraversal<T> &traversal)
     {
+        //NOTE: iterative would probably be better, but we don't know how
+        //to use hash tables yet
         traversal.traverse(_root);
     }
 };
