@@ -33,6 +33,9 @@ public:
 
     }
 
+    //allows for polymorphic behavior
+    virtual ~GraphNode() {}
+
     Value &getValue()
     {
         return _value;
