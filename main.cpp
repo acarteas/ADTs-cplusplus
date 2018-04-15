@@ -4,30 +4,33 @@
 #include "benchmarks\SortingBenchmark.h"
 #include "ADTs\Vector.h"
 #include "ADTs\StringGraphNode.h"
+#include "ADTs\StringGraph.h"
+#include "ADTs\GraphNode.h"
 
 using namespace std;
 
 int main(void)
 {
-    //maintains full collection of all vertices
-    unordered_map<string, StringGraphNode*> graph{};
+	unordered_map<string, vector<string>> edges{};
+	vector<string> vertices;
+	StringGraph Test_Graph;
 
-    //add vertices to graph
-    graph["A"] = new StringGraphNode{ "A" };
-    graph["B"] = new StringGraphNode{ "B" };
-    graph["C"] = new StringGraphNode{ "C" };
-    graph["D"] = new StringGraphNode{ "D" };
-    graph["E"] = new StringGraphNode{ "E" };
-    graph["F"] = new StringGraphNode{ "F" };
+	vertices = { "A", "B", "C", "D", "E", "F", "G" };
+	edges["A"] = { "B", "F", "G" };
+	edges["B"] = { "A", "C", "F" };
+	edges["F"] = { "D", "E" };
+	//edges["D"] = { "F" };
+	//edges["E"] = { "F" }; 
 
-    //A is connected to B and F
-    graph["A"]->addEdge(graph["B"]);
-    graph["A"]->addEdge(graph["F"]);
+	Test_Graph.BulidGraph(vertices, edges);
 
-    //B is connected to A, C, and E
-    graph["B"]->addEdge(graph["A"]);
-    graph["B"]->addEdge(graph["C"]);
-    graph["B"]->addEdge(graph["F"]);
-
+	Test_Graph.printGraph(); 
+	cout << "Recursive Depth First Search" << endl;
+	Test_Graph.depthfirstSearch( "A" );
+	cout << endl << "Iterative Depth First Search" << endl;
+	Test_Graph.iterativedepthfirstSearch("A");
+	Test_Graph.findBridges();
+	
+	system("Pause");
     return 0;
 }
