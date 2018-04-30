@@ -11,32 +11,31 @@ public:
 	//Selection Sort implementation
 	virtual Indexed<T>& sort(Indexed<T>& data)
 	{
-		int min_index = 0;
-		int data_size = data.getSize();
+		//For each item:
+        //  Find the smallest element in the unsorted portion of the array
+        //  Move to last sorted location + 1
+        for (int i = 0; i < data.getSize() - 1; i++)
+        {
+            //The I value represents the "sorted" portion of the array
 
-		//we do data_size - 1 because we're assigning i = j + 1
-		for (int j = 0; j < data_size - 1; j++)
-		{
-			min_index = j;
-			for (int i = j + 1; i < data_size; i++)
-			{
-				//did we find something smaller?
-				if (data.getElementAt(i) < data.getElementAt(min_index))
-				{
-					min_index = i;
-				}
-			}
+            //begin with the assumption that element at i is smaller
+            int smallest_index = i;
 
-			//Do we need to make the swap?
-			//is the IF statement worth it?
-			if (min_index != j) 
-			{
-				T at_j = data.getElementAt(j);
-				T at_min = data.getElementAt(min_index);
-				data.setElementAt(at_j, min_index);
-				data.setElementAt(at_min, j);
-			}
-		}
+            //verify that assumption
+            for (int j = i + 1; j < data.getSize(); j++)
+            {
+                if (data.getElementAt(j) < data.getElementAt(smallest_index))
+                {
+                    //assumption violated: index j has a smaller value
+                    smallest_index = j;
+                }
+            }
+
+            //we are guaranteed to know the smallest index
+            T temp = data.getElementAt(i);
+            data.getElementAt(i) = data.getElementAt(smallest_index);
+            data.getElementAt(smallest_index) = temp;
+        }
 		return data;
 	}
 };

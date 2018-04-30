@@ -12,32 +12,22 @@ public:
 	//Bubble Sort implementation
 	virtual Indexed<T>& sort(Indexed<T>& data)
 	{
-		int data_size = data.getSize();
-		bool swapped = false;
-		while (false == swapped)
-		{
-			swapped = true;
-
-            //TODO: We should be able to change the FOR loop
-            //to shrink for every pass
-			for (int i = 0; i < data_size - 1; i++)
-			{
-
-				//is the current item greater than the
-				//next adjacent item
-				if (data.getElementAt(i) > 
-					data.getElementAt(i + 1))
-				{
-					//..if so, swap the values
-					T first = data.getElementAt(i);
-					T second = data.getElementAt(i + 1);
-					data.setElementAt(first, i + 1);
-					data.setElementAt(second, i);
-					swapped = false;
-				}
-			}
-			data_size--;
-		}
+        bool is_sorted = false;
+        for (int i = 0; i < data.getSize() - 1 && is_sorted == false; i++)
+        {
+            is_sorted = true;
+            for (int j = i + 1; j < data.getSize(); j++)
+            {
+                if (data.getElementAt(i) > data.getElementAt(j))
+                {
+                    //i is larger than j, allow i to bubble up
+                    T temp = data.getElementAt(i);
+                    data.getElementAt(i) = data.getElementAt(j);
+                    data.getElementAt(j) = temp;
+                    is_sorted = false;
+                }
+            }
+        }
 		return data;
 	}
 };

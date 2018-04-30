@@ -37,80 +37,71 @@ private:
 
 	void sortHelper(Indexed<T> &data, int start_bound, int end_bound)
 	{
-		//start and end greater than two
-		if (end_bound - start_bound > 1)
-		{
-			//main MergeSort algorithm
-			int midpoint = (end_bound - start_bound) / 2 + start_bound;
+        if (end_bound - start_bound == 0)
+        {
+            //single element array.  Just return
+            return;
+        }
+        else if (end_bound - start_bound == 1)
+        {
+            //compare two elements, swap as necessary
+            if (data.getElementAt(end_bound) < data.getElementAt(start_bound))
+            {
+                swap(data, end_bound, start_bound);
+            }
+        }
+        else
+        {
+            //recursion happens here
+            int midpoint = (end_bound + start_bound) / 2;
 
-			//ensure sub arrays are sorted
-			if (start_bound < midpoint)
-			{
-				sortHelper(data, start_bound, midpoint);
-			}
-			if (midpoint < end_bound)
-			{
-				sortHelper(data, midpoint, end_bound);
-			}
+            //break down the array
+            if (start_bound < midpoint)
+            {
+                //spit on left side
+                sortHelper(data, start_bound, midpoint);
+            }
+            if (midpoint < end_bound)
+            {
+                //split on right side
+                sortHelper(data, midpoint, end_bound);
+            }
 
-			//merge sorted subsets
-			Vector<T> merged{};
-			int left_index = start_bound;
-			int right_index = midpoint;
+            //INVARIANT: right and left are sorted
+            //Now, peform merge on sorted arrays
+            Vector<T> merged{};
+            int left_index = start_bound;
+            int right_index = midpoint;
+            while (left_index < midpoint && right_index < end_bound)
+            {
+                merged.addElement(min(data, left_index, right_index));
+            }
 
-			//merge while both indices valid
-			while (left_index < midpoint && right_index < end_bound)
-			{
-				//T left = data.getElementAt(left_index);
-				//T right = data.getElementAt(right_index);
-				merged.addElement(min(data, left_index, right_index));
-			}
+            //Once we're here, three possibilities
+            //1. left and right are invalid indices (do not need to account for)
+            //2. left is still valid
+            //3. right is still valid
 
-			//once here, three possibilities:
-			//1. both left and right are invalid indices (ignore because we're done)
-			//2. left is an invalid index
-			//3. right is an invalid index
-			if (left_index < midpoint && right_index >= end_bound)
-			{
-				//case #3
-				for (int i = left_index; i < midpoint; i++)
-				{
-					T item = data.getElementAt(i);
-					merged.addElement(data.getElementAt(i));
-				}
-			}
-			else if(right_index < end_bound && left_index >= midpoint)
-			{
-				//case #2
-				for (int j = right_index; j < end_bound; j++)
-				{
-					T item = data.getElementAt(j);
-					merged.addElement(data.getElementAt(j));
-				}
-			}
+            //case 2
+            while (left_index < midpoint)
+            {
+                merged.addElement(data.getElementAt(left_index));
+                left_index++;
+            }
 
-			//now, copy our temp array back into main array
-			for (int i = 0, j = start_bound; i < merged.getSize(); i++, j++)
-			{
-				//T item = merged.getElementAt(i);
-				data.setElementAt(merged.getElementAt(i), j);
-			}
-
-			//all done!
-		}
-		else if (end_bound - start_bound == 1)
-		{
-			//swap pairs if necessary
-			if (data.getElementAt(end_bound) < data.getElementAt(start_bound))
-			{
-				swap(data, end_bound, start_bound);
-			}
-		}
-		else if (end_bound - start_bound == 0)
-		{
-			//nothing to do, so we're done
-			return;
-		}
+            //case 3
+            while (right_index < end_bound)
+            {
+                merged.addElement(data.getElementAt(right_index));
+                right_index++;
+            }
+            
+            //now, copy over merged vector into original array
+            for (int i = 0, j = start_bound; i < merged.getSize(); i++, j++)
+            {
+                data.setElementAt(merged.getElementAt(i), j);
+            }
+        }
 	}
 
 

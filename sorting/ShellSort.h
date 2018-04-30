@@ -17,19 +17,24 @@ public:
     {
         for (int gap = _gap_count - 1; gap > -1; gap--)
         {
+            //gap tells us how much to jump for each space
             for (int i = gap; i < data.getSize(); i++)
             {
-                T to_compare = data.getElementAt(i);
-                int j = i;
-                while (j > gap
-                    && data.getElementAt(j - gap) > to_compare
-                    )
+                for (int j = i; j > 0 && j - gap > -1; j -= gap)
                 {
-                    T temp = data.getElementAt(j - gap);
-                    data.setElementAt(temp, j);
-                    j -= gap;
+                    //out of order, swap
+                    if (data.getElementAt(j) < data.getElementAt(j - gap))
+                    {
+                        T temp = data.getElementAt(j);
+                        data.getElementAt(j) = data.getElementAt(j - gap);
+                        data.getElementAt(j - gap) = temp;
+                    }
+                    else
+                    {
+                        //no more comparisons to be made on this J loop
+                        break;
+                    }
                 }
-                data.setElementAt(to_compare, j);
             }
         }
             

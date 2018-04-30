@@ -69,77 +69,75 @@ private:
 
 	void sortHelper(Indexed<T> &data, int start_bound, int end_bound)
 	{
+        //base case not reached?
+        if (end_bound - start_bound > 30)
+        {
+            //find the pivot
+            int pivot = getPivot(data, start_bound, end_bound);
+            T& pivot_value = data.getElementAt(pivot);
 
-		//smaller than bound of 3?
-		if (end_bound - start_bound > 3)
-		{
-			//find pivot
-			int pivot = getPivot(data, start_bound, end_bound);
-			T pivot_value = data.getElementAt(pivot);
+            //swap pivot with last element in array
+            swap(data, pivot, end_bound);
 
-			//swap pivot and last item in bound
-			swap(data, pivot, end_bound);
+            //set up i and j
+            int i = start_bound;
+            int j = end_bound - 1;
 
-			//control variables for loop.
-			//i moves from front to back
-			//j moves from back to front
-			int i = start_bound;
-			int j = end_bound - 1;
+            //go until I and J cross
+            while (i < j)
+            {
+                i = findGreaterThan(data, pivot_value, i, j);
+                j = findSmallerThan(data, pivot_value, i, j);
 
-			//go until they cross
-			while (i < j)
-			{
-				i = findGreaterThan(data, pivot_value, i, j);
-				j = findSmallerThan(data, pivot_value, i, j);
+                //are we not at the end?  If not, swap
+                if (i < j)
+                {
+                    swap(data, i, j);
+                }
+            }
 
-				//with indices found, make swap
-				if (i < j)
-				{
-					swap(data, i, j);
-				}
-			}
+            //after loop, I must equal J.  Put pivot back.
+            swap(data, i, end_bound);
 
-			//swap pivot and i value
-			swap(data, i, end_bound);
-
-			//continue process
-			if (start_bound < i - 1)
-			{
-				sortHelper(data, start_bound, i - 1);
-			}
-			if (end_bound > i + 1)
-			{
-				sortHelper(data, i + 1, end_bound);
-			}
-			
-		}
-		else
-		{
-			//cout << "Calling insertion sort..." << endl;
-
-			//sort small sets using insertion sort
-			insertionSort(data, start_bound, end_bound);
-		}
+            //recursive call
+            if (start_bound < i - 1)
+            {
+                sortHelper(data, start_bound, i - 1);
+            }
+            if(end_bound > i + 1)
+            {
+                sortHelper(data, i + 1, end_bound);
+            }
+        }
+        else
+        {
+            insertionSort(data, start_bound, end_bound);
+        }
 	}
 
 
 	void insertionSort(Indexed<T> &data, int start_bound, int end_bound)
 	{
-		for (int i = start_bound + 1; i <= end_bound; i++)
-		{
-			int j = i;
-			while (j > 0 &&
-				data.getElementAt(j - 1) > data.getElementAt(j)
-				)
-			{
-				T temp = data.getElementAt(j - 1);
-				T current = data.getElementAt(j);
-				data.setElementAt(current, j - 1);
-				data.setElementAt(temp, j);
-				j--;
-			}
-
-		}
+        //we're starting at 1 becaues an array of size 1 (element 0) is
+        //by definition sorted
+        for (int i = start_bound + 1; i < end_bound; i++)
+        {
+            for (int j = i; j > 0; j--)
+            {
+                //out of order, swap
+                if (data.getElementAt(j) < data.getElementAt(j - 1))
+                {
+                    T temp = data.getElementAt(j);
+                    data.getElementAt(j) = data.getElementAt(j - 1);
+                    data.getElementAt(j - 1) = temp;
+                }
+                else
+                {
+                    //no more comparisons to be made on this J loop
+                    break;
+                }
+            }
+        }
 	}
 
 public:
