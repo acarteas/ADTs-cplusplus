@@ -13,17 +13,17 @@ public:
 	virtual Indexed<T>& sort(Indexed<T>& data)
 	{
         bool is_sorted = false;
-        for (int i = 0; i < data.getSize() - 1 && is_sorted == false; i++)
+        for (int i = 0; i < data.getSize() && is_sorted == false; i++)
         {
             is_sorted = true;
-            for (int j = i + 1; j < data.getSize(); j++)
+            for (int j = 0; j < data.getSize() - i - 1; j++)
             {
-                if (data.getElementAt(i) > data.getElementAt(j))
+                if (data.getElementAt(j) > data.getElementAt(j + 1))
                 {
-                    //i is larger than j, allow i to bubble up
-                    T temp = data.getElementAt(i);
-                    data.getElementAt(i) = data.getElementAt(j);
-                    data.getElementAt(j) = temp;
+                    //j is larger than j + 1, allow i to bubble up
+                    T temp = data.getElementAt(j);
+                    data.getElementAt(j) = data.getElementAt(j + 1);
+                    data.getElementAt(j + 1) = temp;
                     is_sorted = false;
                 }
             }
