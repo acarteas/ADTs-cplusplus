@@ -1,5 +1,6 @@
-#ifndef CSV_READER_H
-#define CSV_READER_H
+#pragma once
+#ifndef CSV_PARSER_H
+#define CSV_PARSER_H
 
 #include <vector>
 #include <string>
@@ -7,31 +8,39 @@
 #include <sstream>
 using namespace std;
 
-class CsvStateMachine;
-class CsvState;
-class DefaultState;
-class QuoteState;
-class DoubleQuoteState;
-class EndState;
+class CsvStateMachine; //this HAS states
+class CsvState;        //this IS a state
+class DefaultState;    //this IS a state
+class QuoteState;      //this IS a state
+class DoubleQuoteState;//this IS a state
+class EndState;        //this IS a state
 
 class CsvState
 {
-public:
-	virtual ~CsvState() {}
+protected:
+	CsvStateMachine* _machine = nullptr;
 
-	//All CSV state are going to have this one function
+public:
+	virtual ~CsvState() {};
+	CsvState(CsvStateMachine* machine) {
+		_machine = machine;
+	}
+
+	//pure virtual function does 2 things:
+	//1. means that we CANNOT create an instance
+	//of this class directly because this class
+	//is now marked as Abstract.
+	//2. Ensures that every concrete instance
+	//   of CsvState MUST implement this function.
 	virtual void handle() = 0;
 };
 
 class DefaultState : public CsvState
 {
-private:
-	CsvStateMachine* _machine = nullptr;
-
 public:
-	DefaultState(CsvStateMachine* csm)
+	DefaultState(CsvStateMachine* machine)
+		: CsvState(machine)
 	{
-		_machine = csm;
 	}
 
 	//to be defined later
@@ -40,69 +49,70 @@ public:
 
 class QuoteState : public CsvState
 {
-private:
-	CsvStateMachine* _machine = nullptr;
-
 public:
-	QuoteState(CsvStateMachine *csm)
+	QuoteState(CsvStateMachine* machine)
+		: CsvState(machine)
 	{
-		_machine = csm;
 	}
+
+	//to be defined later
 	virtual void handle();
 };
 
 class DoubleQuoteState : public CsvState
 {
-private:
-	CsvStateMachine* _machine = nullptr;
 public:
-	DoubleQuoteState(CsvStateMachine* csm)
+	DoubleQuoteState(CsvStateMachine* machine)
+		: CsvState(machine)
 	{
-		_machine = csm;
 	}
+
+	//to be defined later
 	virtual void handle();
 };
 
 class EndState : public CsvState
 {
-private:
-	CsvStateMachine* _machine = nullptr;
 public:
-	EndState(CsvStateMachine* csm)
+	EndState(CsvStateMachine* machine)
+		: CsvState(machine)
 	{
-		_machine = csm;
 	}
+
+	//to be defined later
 	virtual void handle();
 };
 
 class CsvStateMachine
 {
 private:
-	//all stats in our machine
+	//the state machine needs to have a record of all
+	//possible states
 	CsvState* _default_state = nullptr;
 	CsvState* _quote_state = nullptr;
-	CsvState* _double_qoute_state = nullptr;
+	CsvState* _double_quote_state = nullptr;
 	CsvState* _end_state = nullptr;
 
-	//keeps track of current active state in machine
-	CsvState* _current_state = nullptr;
+	//keeps track of active state in state machine
+	CsvState* _active_state = nullptr;
 
-	//represents the entire fiel in object form
-	vector<vector<string>> _table;
-
-	//represents the file in raw form
+	//file form of CSV file
 	ifstream _csv_stream;
 
-	//represents the current row being processed in object form
+	//represents current row in raw form
+	string _raw_line;
+
+	//Object form of CSV file
+	vector<vector<string>> _table;
+
+	//Object form of current row being processed
 	vector<string> _current_row;
 
-	//represents the current row in raw form
-	string _current_line;
+	//tracks where we are at in the current row being processed
+	int _current_row_position;
 
-	//points to current character of current line
-	int _current_line_position = 0;
-
-	//reprents the current cell being operated on
+	//represents current cell being operated on, programmatically
+	//constructed
 	ostringstream _current_cell;
 
 public:
@@ -111,11 +121,11 @@ public:
 		//set up states
 		_default_state = new DefaultState(this);
 		_quote_state = new QuoteState(this);
-		_double_qoute_state = new DoubleQuoteState(this);
+		_double_quote_state = new DoubleQuoteState(this);
 		_end_state = new EndState(this);
 
-		//set current state to default
-		_current_state = _default_state;
+		//set initial state
+		_active_state = _default_state;
 
 		//set up file stream for processing
 		_csv_stream = ifstream{ file_name };
@@ -127,96 +137,105 @@ public:
 	{
 		delete _default_state;
 		delete _quote_state;
-		delete _double_qoute_state;
+		delete _double_quote_state;
 		delete _end_state;
+		_csv_stream.close();
 	}
 
-	//adds the supplied character to the cell presently under
-	//construction
-	void appendToCurrentCell(char to_append)
+	//setter functions allow individual states to alter overall state machine
+	void setStateToDefault()
 	{
-		_current_cell << to_append;
+		_active_state = _default_state;
+	}
+	void setStateToQuoteState()
+	{
+		_active_state = _quote_state;
+	}
+	void setStateToDoubleQuoteState()
+	{
+		_active_state = _double_quote_state;
+	}
+	void setStateToEndState()
+	{
+		_active_state = _end_state;
 	}
 
-	//returns the next character to be processed
+	//allows active state to add content to the current cell
+	void appendToCurrentCell(char ch)
+	{
+		_current_cell << ch;
+	}
+
+	//allows active state to learn about the char it's supposed to
+	//process
 	char getNextCharToProcess()
 	{
-		//prevents array out of bounds
-		if (_current_line.length() <= _current_line_position)
+		//make sure that there is info to be processed
+		if (_raw_line.length() <= _current_row_position)
 		{
 			return '\0';
 		}
-		char result = _current_line[_current_line_position];
-		_current_line_position++;
+		char result = _raw_line[_current_row_position];
+		_current_row_position++;
 		return result;
 	}
 
-	void setStateToDefaultState()
-	{
-		_current_state = _default_state;
-	}
-
-	void setStateToQuoteState()
-	{
-		_current_state = _quote_state;
-	}
-
-	void setStateToDoubleQuoteState()
-	{
-		_current_state = _double_qoute_state;
-	}
-
-	void setStateToEndState()
-	{
-		_current_state = _end_state;
-	}
-
-	//this function drives the underlying state machine and 
-	//produces the final 2D table of CSV data
+	//this function drives the underlying state machine and produces
+	//the final 2D table of CSV data
 	vector<vector<string>> processFile()
 	{
-		getline(_csv_stream, _current_line);
-		while (_csv_stream.good() == true || _current_line.length() > 0)
+		//prime loop by grabbing first line in file
+		getline(_csv_stream, _raw_line);
+		while (_csv_stream.good() == true || _raw_line.length() > 0)
 		{
-			//check for boundary conditions
-			//in end state
-			//or end of line
-			if (_current_state == _end_state ||
-				_current_line_position == _current_line.length())
-			{
-				//add current cell to current row and reset states
-				_current_row.push_back(_current_cell.str());
-				_current_cell = ostringstream{};
-				setStateToDefaultState();
 
-				//is row done?
-				if (_current_line_position == _current_line.length())
+			//are we done processing current line or are we at the end state?
+			if (_raw_line.length() == _current_row_position
+				|| _active_state == _end_state)
+			{
+				//remember _current_cell is an ostringstream
+				//so we need to convert into raw string using .str() 
+				_current_row.push_back(_current_cell.str());
+
+				//reset current cell
+				_current_cell = ostringstream{};
+
+				//reset state machine
+				setStateToDefault();
+
+				//are we done with the line?
+				if (_raw_line.length() == _current_row_position)
 				{
-					//check for empty cell
-					if (_current_line[_current_line_position - 1] == ',')
+					//check for dangling comma (empty cell)
+					if (_current_row_position > 0 
+						&& _raw_line[_current_row_position - 1] == ',')
 					{
 						_current_row.push_back("");
 					}
 
-					//we are done with row, so add row to table, reset row
+					//we are done with the row, so add row to table, rest row
 					//and grab a new line
 					_table.push_back(_current_row);
 					_current_row = vector<string>{};
-					_current_line_position = 0;
-					getline(_csv_stream, _current_line);
-					
-					//account for EOF
-					if (_csv_stream.good() == false)
+					_current_row_position = 0;			
+
+					//account for end of file
+					if (_csv_stream.good() == true)
+					{
+						getline(_csv_stream, _raw_line);
+					}
+					else
 					{
 						break;
-					}
+					}			
 				}
 			}
-
-			//make state machine do work
-			_current_state->handle();
+			else
+			{
+				//no new cell or line needed, continue to run state machine
+				_active_state->handle();
+			}
 		}
-
 		return _table;
 	}
 
@@ -263,18 +282,17 @@ void DoubleQuoteState::handle()
 	{
 		_machine->setStateToEndState();
 	}
-	else
+	else 
 	{
-		//add character to cell
+		//Note: this isn't 100% correct in certain fringe cases
 		_machine->appendToCurrentCell(next_char);
-
 		if (next_char == '"')
 		{
 			_machine->setStateToQuoteState();
 		}
 		else
 		{
-			_machine->setStateToDefaultState();
+			_machine->setStateToDefault();
 		}
 	}
 }
@@ -284,4 +302,4 @@ void EndState::handle()
 
 }
 
-#endif // !CSV_READER_H
+#endif // !CSV_PARSER_H
